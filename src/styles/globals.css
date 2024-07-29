@@ -2,10 +2,14 @@
 
 :root {
   --background: #121212;
-  --primary-element: #181818;
-  --secondary-element: #282828;
-  --primary-font-color: #e52b50;
-  --common-font-color: #fff;
+  --primary: #181818;
+  --secondary: #282828;
+  --red: #e52b50;
+  --white: #fff;
+}
+
+* {
+  font-family: "Poppins";
 }
 
 body {
@@ -16,5 +20,8 @@ body {
   box-sizing: border-box;
 
   background: var(--background);
-  font-family: "Poppins";
+}
+
+h1 {
+  font-size: 1.5rem;
 }
