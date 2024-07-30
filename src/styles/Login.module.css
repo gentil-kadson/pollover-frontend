@@ -93,3 +93,15 @@
 .hideElement {
   display: none;
 }
+
+@media (max-width: 432px) {
+  .main {
+    background: var(--primary);
+  }
+
+  .section {
+    width: 100%;
+
+    justify-content: center;
+  }
+}
