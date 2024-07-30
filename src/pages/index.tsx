@@ -1,4 +1,7 @@
 import Head from "next/head";
+import styles from "../styles/Home.module.css";
+
+import PollCard from "@/components/PollCard";
 
 export default function Home() {
   return (
@@ -9,7 +12,21 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1>Hello, world</h1>
+      <main className={styles.main}>
+        <section className={styles.mainSection}>
+          <h1 className={styles.title}>Running Polls</h1>
+          <section className={styles.createPollSection}>
+            <button className={styles.button}>Create poll</button>
+          </section>
+          <div className={styles.pollCardsContainer}>
+            <PollCard />
+            <PollCard />
+            <PollCard />
+            <PollCard />
+            <PollCard />
+          </div>
+        </section>
+      </main>
     </>
   );
 }

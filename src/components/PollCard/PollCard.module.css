@@ -1,0 +1,18 @@
+.cardWrapper {
+  background: var(--secondary);
+  border: 2px solid var(--secondary);
+
+  width: 300px;
+  height: 150px;
+  padding: 1rem;
+  border-radius: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cardWrapper:hover {
+  cursor: pointer;
+  border: 2px solid var(--red);
+}
