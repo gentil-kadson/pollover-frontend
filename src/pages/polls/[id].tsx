@@ -1,6 +1,7 @@
 import styles from "../../styles/Poll.module.css";
 import Head from "next/head";
 import Link from "next/link";
+import PollListItem from "@/components/PollListItem";
 
 export default function Poll() {
   return (
@@ -15,28 +16,10 @@ export default function Poll() {
         <section className={styles.pollOptionsSection}>
           <h1 className={styles.title}>Poll Title</h1>
           <ul className={styles.ul}>
-            <li className={styles.li}>
-              <span className={styles.pollOptionText}>
-                Dust begins to fall to the ground the air is cold and thin
-              </span>
-              <button className={styles.pollOptionButton}>Votar</button>
-            </li>
-            <li className={styles.li}>
-              <span className={styles.pollOptionText}>Opção 2</span>
-              <button className={styles.pollOptionButton}>Votar</button>
-            </li>
-            <li className={styles.li}>
-              <span className={styles.pollOptionText}>Opção 3</span>
-              <button className={styles.pollOptionButton}>Votar</button>
-            </li>
-            <li className={styles.li}>
-              <span className={styles.pollOptionText}>Opção 4</span>
-              <button className={styles.pollOptionButton}>Votar</button>
-            </li>
-            <li className={styles.li}>
-              <span className={styles.pollOptionText}>Opção 5</span>
-              <button className={styles.pollOptionButton}>Votar</button>
-            </li>
+            <PollListItem optionText="Buried Alive" numberOfVotes={30} />
+            <PollListItem optionText="Buried Alive" numberOfVotes={30} />
+            <PollListItem optionText="Buried Alive" numberOfVotes={30} />
+            <PollListItem optionText="Buried Alive" numberOfVotes={30} />
           </ul>
           <Link href="/">
             <button className={styles.homeButton}>Home</button>
