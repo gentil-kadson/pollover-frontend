@@ -1,5 +1,6 @@
 import styles from "../styles/CreatePoll.module.css";
 import PollOption from "@/components/PollOption";
+import PollCreationForm from "@/components/PollCreationForm";
 import { useState } from "react";
 import Head from "next/head";
 
@@ -38,22 +39,7 @@ export default function CreatePoll() {
       <main className={styles.main}>
         <section className={styles.section}>
           <h1 className={styles.title}>Poll Creation</h1>
-          <form className={styles.form}>
-            <div className={styles.formGroup}>
-              <label htmlFor="pollTitle" className={styles.label}>
-                Title
-              </label>
-              <input
-                className={styles.input}
-                type="text"
-                name="pollTitle"
-                id="pollTitle"
-              />
-            </div>
-            <section className={styles.pollOptions}>
-              {options.map((option) => option)}
-            </section>
-          </form>
+          <PollCreationForm options={options} />
           <div className={styles.buttonsContainer}>
             <button className={styles.button} onClick={handleAddOption}>
               Add option
