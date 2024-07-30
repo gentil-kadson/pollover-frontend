@@ -1,0 +1,55 @@
+.main {
+  max-width: 1240px;
+  height: 100vh;
+  margin: auto;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.section {
+  background: var(--secondary);
+  padding: 2rem;
+
+  width: 400px;
+  min-height: 350px;
+  border-radius: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.title {
+  color: var(--red);
+  font-size: 2rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+
+  width: 209px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  color: var(--white);
+}
+
+.input {
+  background: var(--primary);
+  border: none;
+  border-radius: 0.3125rem;
+  padding: 0.25rem 1rem;
+
+  color: var(--white);
+}
