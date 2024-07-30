@@ -1,5 +1,6 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
+import Link from "next/link";
 
 import PollCard from "@/components/PollCard";
 
@@ -16,7 +17,9 @@ export default function Home() {
         <section className={styles.mainSection}>
           <h1 className={styles.title}>Running Polls</h1>
           <section className={styles.createPollSection}>
-            <button className={styles.button}>Create poll</button>
+            <Link href="/create-poll">
+              <button className={styles.button}>Create poll</button>
+            </Link>
           </section>
           <div className={styles.pollCardsContainer}>
             <PollCard />

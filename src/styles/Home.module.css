@@ -48,6 +48,7 @@
 
 .createPollSection {
   padding: 1rem 0rem;
+  width: fit-content;
 }
 
 @media (max-width: 413px) {
