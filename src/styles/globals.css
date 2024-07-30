@@ -28,8 +28,13 @@ h2 {
   margin: 0;
 }
 
+button {
+  transition: filter 0.2s;
+}
+
 button:hover {
   cursor: pointer;
+  filter: brightness(0.75);
 }
 
 a {
