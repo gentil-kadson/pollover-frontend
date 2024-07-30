@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  max-width: 209px;
 }
 
 .label {
@@ -13,7 +12,7 @@
   background: var(--primary);
   border: none;
   border-radius: 0.3125rem;
-  padding: 0.25rem 1rem;
+  padding: 0.5rem 1rem;
 
   color: var(--white);
 }
