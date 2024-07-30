@@ -52,7 +52,8 @@
 }
 
 @media (max-width: 413px) {
-  .button {
+  .button,
+  .createPollSection {
     width: 100%;
   }
 

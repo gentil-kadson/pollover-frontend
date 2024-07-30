@@ -1,5 +1,6 @@
 import styles from "../../styles/Poll.module.css";
 import Head from "next/head";
+import Link from "next/link";
 
 export default function Poll() {
   return (
@@ -11,7 +12,7 @@ export default function Poll() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <section className={styles.section}>
+        <section className={styles.pollOptionsSection}>
           <h1 className={styles.title}>Poll Title</h1>
           <ul className={styles.ul}>
             <li className={styles.li}>
@@ -37,6 +38,9 @@ export default function Poll() {
               <button className={styles.pollOptionButton}>Votar</button>
             </li>
           </ul>
+          <Link href="/">
+            <button className={styles.homeButton}>Home</button>
+          </Link>
         </section>
       </main>
     </>
