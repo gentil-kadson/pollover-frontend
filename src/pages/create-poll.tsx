@@ -1,21 +1,25 @@
 import styles from "../styles/CreatePoll.module.css";
-import PollOption from "@/components/PollOption";
 import PollCreationForm from "@/components/PollCreationForm";
 import { useState } from "react";
 import Head from "next/head";
 
+type Options = {
+  optionNumber: number;
+  key: number;
+};
+
 export default function CreatePoll() {
-  const [options, setOptions] = useState<JSX.Element[]>([
-    <PollOption optionNumber={1} key={1} />,
-    <PollOption optionNumber={2} key={2} />,
+  const [options, setOptions] = useState<Options[]>([
+    { optionNumber: 1, key: 1 },
+    { optionNumber: 2, key: 2 },
   ]);
 
   function handleAddOption() {
     const index = options.length + 1;
-    const newOption = <PollOption optionNumber={index} key={index} />;
+    const newOptionData = { optionNumber: index, key: index };
     setOptions((prevState) => {
       const updatedOptions = [...prevState];
-      updatedOptions.push(newOption);
+      updatedOptions.push(newOptionData);
       return updatedOptions;
     });
   }
