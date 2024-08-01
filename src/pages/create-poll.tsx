@@ -52,7 +52,6 @@ export default function CreatePoll() {
     const treatedOptions = options.map((option) => {
       return { text: option.title };
     });
-    console.log("entrei na função");
     api
       .post("/polls", {
         title: pollTitle,

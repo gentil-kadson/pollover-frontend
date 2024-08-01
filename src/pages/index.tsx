@@ -1,11 +1,11 @@
-import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
-
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
 import Link from "next/link";
-import api from "./api/axios";
-
 import PollCard from "@/components/PollCard";
+
+import styles from "../styles/Home.module.css";
+import api from "./api/axios";
+import { useEffect, useState } from "react";
+import socket from "@/services/socket";
 
 type Poll = {
   id: number;
@@ -13,18 +13,22 @@ type Poll = {
   total_votes: number;
 };
 
-export const getServerSideProps = (async () => {
-  const { data } = await api.get("/polls");
-  const polls: Poll[] = data;
+export default function Home() {
+  const [polls, setPolls] = useState<Poll[]>([]);
 
-  return { props: { polls } };
-}) satisfies GetServerSideProps<{ polls: Poll[] }>;
+  useEffect(() => {
+    function getPolls() {
+      api.get("/polls").then((response) => {
+        setPolls(response.data);
+      });
+    }
 
-export default function Home({
-  polls,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  console.log("olha a poll");
-  console.log(polls);
+    getPolls();
+
+    socket.on("updatePolls", (polls: Poll[]) => {
+      setPolls(polls);
+    });
+  }, []);
 
   return (
     <>
