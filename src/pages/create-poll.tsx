@@ -1,7 +1,9 @@
 import PollOption from "@/components/PollOption";
 import styles from "../styles/CreatePoll.module.css";
 import Head from "next/head";
-import { useState, useRef, ChangeEvent } from "react";
+import { useState, ChangeEvent } from "react";
+import { useRouter } from "next/router";
+import api from "./api/axios";
 
 type Option = {
   optionNumber: number;
@@ -9,7 +11,8 @@ type Option = {
 };
 
 export default function CreatePoll() {
-  const pollTitleRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
+  const [pollTitle, setPollTitle] = useState<string>("");
   const [options, setOptions] = useState<Option[]>([
     { optionNumber: 1, title: "" },
     { optionNumber: 2, title: "" },
@@ -45,6 +48,22 @@ export default function CreatePoll() {
     setOptions(updatedOptions);
   }
 
+  function handlePollCreation() {
+    const treatedOptions = options.map((option) => {
+      return { text: option.title };
+    });
+    console.log("entrei na função");
+    api
+      .post("/polls", {
+        title: pollTitle,
+        poll_options: treatedOptions,
+      })
+      .then((success) => {
+        router.push("/");
+      })
+      .catch((err) => console.log(err));
+  }
+
   return (
     <>
       <Head>
@@ -66,7 +85,7 @@ export default function CreatePoll() {
                 type="text"
                 name="pollTitle"
                 id="pollTitle"
-                ref={pollTitleRef}
+                onChange={(e) => setPollTitle(e.target.value)}
               />
             </div>
             <section className={styles.pollOptions}>
@@ -90,7 +109,9 @@ export default function CreatePoll() {
             >
               Remove last option
             </button>
-            <button className={styles.button}>Save</button>
+            <button className={styles.button} onClick={handlePollCreation}>
+              Save
+            </button>
           </div>
         </section>
       </main>
