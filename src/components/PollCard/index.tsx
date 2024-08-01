@@ -1,11 +1,16 @@
 import styles from "./PollCard.module.css";
 
-export default function PollCard() {
+type PollCardProps = {
+  pollTitle: string;
+  totalVotes: number;
+};
+
+export default function PollCard({ pollTitle, totalVotes }: PollCardProps) {
   return (
     <div className={styles.cardWrapper}>
-      <h2>Best ADS teacher</h2>
+      <h2>{pollTitle}</h2>
       <p>
-        <strong>Total votes:</strong> 300
+        <strong>Total votes:</strong> {totalVotes}
       </p>
     </div>
   );

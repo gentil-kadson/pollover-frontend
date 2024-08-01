@@ -1,10 +1,31 @@
+import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
+
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
+import api from "./api/axios";
 
 import PollCard from "@/components/PollCard";
 
-export default function Home() {
+type Poll = {
+  id: number;
+  title: string;
+  total_votes: number;
+};
+
+export const getServerSideProps = (async () => {
+  const { data } = await api.get("/polls");
+  const polls: Poll[] = data;
+
+  return { props: { polls } };
+}) satisfies GetServerSideProps<{ polls: Poll[] }>;
+
+export default function Home({
+  polls,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  console.log("olha a poll");
+  console.log(polls);
+
   return (
     <>
       <Head>
@@ -22,11 +43,13 @@ export default function Home() {
             </Link>
           </section>
           <div className={styles.pollCardsContainer}>
-            <PollCard />
-            <PollCard />
-            <PollCard />
-            <PollCard />
-            <PollCard />
+            {polls.map((poll) => (
+              <PollCard
+                key={poll.id}
+                pollTitle={poll.title}
+                totalVotes={poll.total_votes}
+              />
+            ))}
           </div>
         </section>
       </main>
