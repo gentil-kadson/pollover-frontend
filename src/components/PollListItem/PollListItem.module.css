@@ -21,3 +21,7 @@
 
   background: var(--secondary);
 }
+
+.chosenPollItem {
+  background: var(--red);
+}

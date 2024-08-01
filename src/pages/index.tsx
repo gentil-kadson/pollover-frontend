@@ -48,11 +48,13 @@ export default function Home() {
           </section>
           <div className={styles.pollCardsContainer}>
             {polls.map((poll) => (
-              <PollCard
-                key={poll.id}
-                pollTitle={poll.title}
-                totalVotes={poll.total_votes}
-              />
+              <Link href={`/polls/${poll.id}`}>
+                <PollCard
+                  key={poll.id}
+                  pollTitle={poll.title}
+                  totalVotes={poll.total_votes}
+                />
+              </Link>
             ))}
           </div>
         </section>

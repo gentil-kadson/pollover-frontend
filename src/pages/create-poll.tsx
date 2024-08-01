@@ -84,6 +84,7 @@ export default function CreatePoll() {
                 type="text"
                 name="pollTitle"
                 id="pollTitle"
+                autoComplete="off"
                 onChange={(e) => setPollTitle(e.target.value)}
               />
             </div>

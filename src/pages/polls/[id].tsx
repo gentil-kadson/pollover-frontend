@@ -2,8 +2,46 @@ import styles from "../../styles/Poll.module.css";
 import Head from "next/head";
 import Link from "next/link";
 import PollListItem from "@/components/PollListItem";
+import api from "../api/axios";
+import socket from "@/services/socket";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+
+type OptionData = {
+  id: number;
+  text: string;
+  votes_count: number;
+  poll_id: number;
+};
 
 export default function Poll() {
+  const router = useRouter();
+  const [optionsData, setOptionsData] = useState<OptionData[]>([]);
+  const [chosenOption, setChosenOption] = useState<{
+    poll_option: number;
+    user_id: number;
+  }>({
+    poll_option: 0,
+    user_id: 1,
+  });
+
+  useEffect(() => {
+    api.get(`/polls/${router.query.id}`).then((response) => {
+      const pollOptions = response.data.poll_options;
+      setOptionsData(pollOptions);
+    });
+  }, []);
+
+  function handleOptionChoose(optionId: number) {
+    optionsData.forEach((option) => {
+      if (option.id === optionId) {
+        setChosenOption((prevState) => {
+          return { ...prevState, poll_option: option.id };
+        });
+      }
+    });
+  }
+
   return (
     <>
       <Head>
@@ -16,10 +54,16 @@ export default function Poll() {
         <section className={styles.pollOptionsSection}>
           <h1 className={styles.title}>Poll Title</h1>
           <ul className={styles.ul}>
-            <PollListItem optionText="Buried Alive" numberOfVotes={30} />
-            <PollListItem optionText="Buried Alive" numberOfVotes={30} />
-            <PollListItem optionText="Buried Alive" numberOfVotes={30} />
-            <PollListItem optionText="Buried Alive" numberOfVotes={30} />
+            {optionsData.map((optionData) => (
+              <PollListItem
+                id={optionData.id}
+                key={optionData.id}
+                optionText={optionData.text}
+                numberOfVotes={optionData.votes_count}
+                chosenOption={chosenOption}
+                handleOptionChoose={handleOptionChoose}
+              />
+            ))}
           </ul>
           <Link href="/">
             <button className={styles.homeButton}>Home</button>
