@@ -1,8 +1,55 @@
-import styles from "../styles/Login.module.css";
 import Head from "next/head";
 import LoginForm from "@/components/LoginForm";
 
+import { useState } from "react";
+import { useRouter } from "next/router";
+import styles from "../styles/Login.module.css";
+import api from "./api/axios";
+
+type User = {
+  id: number;
+  username: string;
+};
+
 export default function Login() {
+  const [username, setUsername] = useState<string>("");
+  const [showErrMessage, setShowErrMessage] = useState<boolean>(false);
+  const router = useRouter();
+
+  function handleUsernameInput(username: string) {
+    setUsername(username);
+  }
+
+  function handleRegisterButtonClick(e: any) {
+    e.preventDefault();
+    api
+      .post("/users", {
+        username,
+      })
+      .then((success) => {
+        router.push("/");
+      })
+      .catch((err) => {
+        if (err.response.status === 400) {
+          setShowErrMessage(true);
+        }
+      });
+  }
+
+  function handleLoginButtonClick(e: any) {
+    e.preventDefault();
+    api
+      .get("/users")
+      .then((response) => {
+        const users: User[] = response.data;
+        const foundUser = users.find((user) => user.username === username);
+        if (foundUser) {
+          router.push("/");
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
   return (
     <>
       <Head>
@@ -14,10 +61,16 @@ export default function Login() {
       <main className={styles.main}>
         <section className={styles.section}>
           <h1 className={styles.loginTitle}>Authentication</h1>
-          <LoginForm />
-          <p className={`${styles.usernameTakenText} ${styles.hideElement}`}>
-            This username is already taken.
-          </p>
+          <LoginForm
+            handleUsername={handleUsernameInput}
+            handleRegisterClick={handleRegisterButtonClick}
+            handleLoginClick={handleLoginButtonClick}
+          />
+          {showErrMessage && (
+            <p className={styles.usernameTakenText}>
+              This username is already taken.
+            </p>
+          )}
         </section>
       </main>
     </>
