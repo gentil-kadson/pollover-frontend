@@ -1,35 +1,48 @@
+import PollOption from "@/components/PollOption";
 import styles from "../styles/CreatePoll.module.css";
-import PollCreationForm from "@/components/PollCreationForm";
-import { useState } from "react";
 import Head from "next/head";
+import { useState, useRef, ChangeEvent } from "react";
 
-type Options = {
+type Option = {
   optionNumber: number;
-  key: number;
+  title: string;
 };
 
 export default function CreatePoll() {
-  const [options, setOptions] = useState<Options[]>([
-    { optionNumber: 1, key: 1 },
-    { optionNumber: 2, key: 2 },
+  const pollTitleRef = useRef<HTMLInputElement>(null);
+  const [options, setOptions] = useState<Option[]>([
+    { optionNumber: 1, title: "" },
+    { optionNumber: 2, title: "" },
   ]);
 
+  function handleOptionTitleChange(
+    e: ChangeEvent<HTMLInputElement>,
+    optionNumber: number
+  ) {
+    const nextOptions = options.map((option, index) => {
+      if (option.optionNumber == optionNumber) {
+        return { ...option, title: e.target.value };
+      } else {
+        return { ...option };
+      }
+    });
+    setOptions(nextOptions);
+  }
+
   function handleAddOption() {
-    const index = options.length + 1;
-    const newOptionData = { optionNumber: index, key: index };
+    const optionNumber = options.length + 1;
+    const optionObj = { title: "", optionNumber };
     setOptions((prevState) => {
-      const updatedOptions = [...prevState];
-      updatedOptions.push(newOptionData);
-      return updatedOptions;
+      return [...prevState, optionObj];
     });
   }
 
-  function handleLastOptionRemoval() {
-    setOptions((prevState) => {
-      const updatedOptions = [...prevState];
-      updatedOptions.pop();
-      return updatedOptions;
-    });
+  function handleRemoveLastOption() {
+    const lastOption = options[options.length - 1];
+    const updatedOptions = options.filter(
+      (option) => option.optionNumber !== lastOption.optionNumber
+    );
+    setOptions(updatedOptions);
   }
 
   return (
@@ -43,15 +56,37 @@ export default function CreatePoll() {
       <main className={styles.main}>
         <section className={styles.section}>
           <h1 className={styles.title}>Poll Creation</h1>
-          <PollCreationForm options={options} />
+          <form className={styles.form}>
+            <div className={styles.formGroup}>
+              <label htmlFor="pollTitle" className={styles.label}>
+                Title
+              </label>
+              <input
+                className={styles.input}
+                type="text"
+                name="pollTitle"
+                id="pollTitle"
+                ref={pollTitleRef}
+              />
+            </div>
+            <section className={styles.pollOptions}>
+              {options.map((option) => (
+                <PollOption
+                  optionNumber={option.optionNumber}
+                  key={option.optionNumber}
+                  handleChange={handleOptionTitleChange}
+                />
+              ))}
+            </section>
+          </form>
           <div className={styles.buttonsContainer}>
             <button className={styles.button} onClick={handleAddOption}>
               Add option
             </button>
             <button
-              disabled={options.length == 2 ? true : false}
               className={styles.button}
-              onClick={handleLastOptionRemoval}
+              onClick={handleRemoveLastOption}
+              disabled={options.length > 2 ? false : true}
             >
               Remove last option
             </button>
