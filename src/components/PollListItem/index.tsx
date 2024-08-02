@@ -1,4 +1,6 @@
 import styles from "./PollListItem.module.css";
+import Image from "next/image";
+import Prohibited from "/public/cantVote.svg";
 
 type PollListItemProps = {
   id: number;
@@ -6,6 +8,7 @@ type PollListItemProps = {
   numberOfVotes: number;
   chosenOption: { poll_option: number; user_id: number };
   handleOptionChoose: (optionId: number) => void;
+  shouldDisable: boolean;
 };
 
 export default function PollListItem({
@@ -14,6 +17,7 @@ export default function PollListItem({
   numberOfVotes,
   chosenOption,
   handleOptionChoose,
+  shouldDisable,
 }: PollListItemProps) {
   return (
     <li className={styles.li}>
@@ -24,8 +28,18 @@ export default function PollListItem({
         className={`${styles.pollOptionButton} ${
           chosenOption.poll_option === id ? styles.chosenPollItem : ""
         }`}
-        onClick={() => handleOptionChoose(chosenOption.poll_option)}
-      ></button>
+        disabled={shouldDisable}
+        onClick={() => handleOptionChoose(id)}
+      >
+        {shouldDisable && (
+          <Image
+            src={Prohibited}
+            width={30}
+            height={30}
+            alt="ícone de proibição"
+          />
+        )}
+      </button>
     </li>
   );
 }

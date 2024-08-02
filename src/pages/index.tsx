@@ -48,9 +48,8 @@ export default function Home() {
           </section>
           <div className={styles.pollCardsContainer}>
             {polls.map((poll) => (
-              <Link href={`/polls/${poll.id}`}>
+              <Link href={`/polls/${poll.id}`} key={poll.id}>
                 <PollCard
-                  key={poll.id}
                   pollTitle={poll.title}
                   totalVotes={poll.total_votes}
                 />
