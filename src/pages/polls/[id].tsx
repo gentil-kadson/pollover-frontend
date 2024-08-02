@@ -4,7 +4,8 @@ import Link from "next/link";
 import PollListItem from "@/components/PollListItem";
 import api from "../api/axios";
 import socket from "@/services/socket";
-import { useState, useEffect, useRef } from "react";
+import { UserIdContext } from "../_app";
+import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 
 type OptionData = {
@@ -16,20 +17,20 @@ type OptionData = {
 
 export default function Poll() {
   const router = useRouter();
+  const { userId } = useContext(UserIdContext);
   const [optionsData, setOptionsData] = useState<OptionData[]>([]);
   const [chosenOption, setChosenOption] = useState<{
     poll_option: number;
     user_id: number;
   }>({
     poll_option: 0,
-    user_id: 6,
+    user_id: userId,
   });
   const [usersWhoVoted, setUsersWhoVoted] = useState<
     { id: number; username: string }[]
   >([]);
   const [shouldDisable, setShouldDisable] = useState<boolean>(false);
   const [pollTitle, setPollTitle] = useState<string>("");
-  const titleRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
     async function getData() {
@@ -104,9 +105,7 @@ export default function Poll() {
       </Head>
       <main className={styles.main}>
         <section className={styles.pollOptionsSection}>
-          <h1 className={styles.title} ref={titleRef}>
-            {pollTitle}
-          </h1>
+          <h1 className={styles.title}>{pollTitle}</h1>
           <ul className={styles.ul}>
             {optionsData.map((optionData) => (
               <PollListItem

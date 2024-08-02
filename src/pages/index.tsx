@@ -4,7 +4,9 @@ import PollCard from "@/components/PollCard";
 
 import styles from "../styles/Home.module.css";
 import api from "./api/axios";
-import { useEffect, useState } from "react";
+import { UserIdContext } from "./_app";
+import { useEffect, useState, useContext } from "react";
+import { useRouter } from "next/router";
 import socket from "@/services/socket";
 
 type Poll = {
@@ -15,8 +17,12 @@ type Poll = {
 
 export default function Home() {
   const [polls, setPolls] = useState<Poll[]>([]);
+  const { userId } = useContext(UserIdContext);
+  const router = useRouter();
 
   useEffect(() => {
+    if (userId === 0) router.push("/login");
+
     function getPolls() {
       api.get("/polls").then((response) => {
         setPolls(response.data);

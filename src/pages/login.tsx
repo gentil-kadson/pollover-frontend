@@ -1,7 +1,8 @@
 import Head from "next/head";
 import LoginForm from "@/components/LoginForm";
 
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { UserIdContext } from "./_app";
 import { useRouter } from "next/router";
 import styles from "../styles/Login.module.css";
 import api from "./api/axios";
@@ -13,8 +14,9 @@ type User = {
 
 export default function Login() {
   const [username, setUsername] = useState<string>("");
-  const [showErrMessage, setShowErrMessage] = useState<boolean>(false);
+  const [errMessage, setErrMessage] = useState<string>("");
   const router = useRouter();
+  const { setUserId } = useContext(UserIdContext);
 
   function handleUsernameInput(username: string) {
     setUsername(username);
@@ -27,11 +29,12 @@ export default function Login() {
         username,
       })
       .then((success) => {
+        setUserId(success.data.id);
         router.push("/");
       })
       .catch((err) => {
         if (err.response.status === 400) {
-          setShowErrMessage(true);
+          setErrMessage("Username already taken.");
         }
       });
   }
@@ -44,7 +47,10 @@ export default function Login() {
         const users: User[] = response.data;
         const foundUser = users.find((user) => user.username === username);
         if (foundUser) {
+          setUserId(foundUser.id);
           router.push("/");
+        } else {
+          setErrMessage("User not found.");
         }
       })
       .catch((err) => console.log(err));
@@ -66,10 +72,8 @@ export default function Login() {
             handleRegisterClick={handleRegisterButtonClick}
             handleLoginClick={handleLoginButtonClick}
           />
-          {showErrMessage && (
-            <p className={styles.usernameTakenText}>
-              This username is already taken.
-            </p>
+          {errMessage.length > 0 && (
+            <p className={styles.usernameTakenText}>{errMessage}</p>
           )}
         </section>
       </main>
